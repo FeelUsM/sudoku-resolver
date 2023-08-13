@@ -261,7 +261,7 @@ const char * c5, const char * c6, const char * c7, const char * c8)
 	link(s,7,c7);
 	link(s,8,c8);
 }
-void create9x9()
+void create9x9base()
 {
 	newCell("lu_lu"	);	newCell("lu_u"	);	newCell("lu_ru"	);
 	newCell("lu_l"	);	newCell("lu_c"	);	newCell("lu_r"	);
@@ -300,9 +300,6 @@ void create9x9()
 	newSuset("v7");	newSuset("h7");
 	newSuset("v8");	newSuset("h8");
 	newSuset("v9");	newSuset("h9");
-	newSuset("lu");	newSuset("u");	newSuset("ru");
-	newSuset("l");	newSuset("c");	newSuset("r");
-	newSuset("ld");	newSuset("d");	newSuset("rd");
 		
 	link9("v1","lu_lu","lu_l","lu_ld","l_lu","l_l","l_ld","ld_lu","ld_l","ld_ld");
 	link9("v2","lu_u","lu_c","lu_d","l_u","l_c","l_d","ld_u","ld_c","ld_d");
@@ -322,6 +319,15 @@ void create9x9()
 	link9("h7","ld_lu","ld_u","ld_ru","d_lu","d_u","d_ru","rd_lu","rd_u","rd_ru");
 	link9("h8","ld_l","ld_c","ld_r","d_l","d_c","d_r","rd_l","rd_c","rd_r");
 	link9("h9","ld_ld","ld_d","ld_rd","d_ld","d_d","d_rd","rd_ld","rd_d","rd_rd");
+}
+void create9x9()
+{
+	create9x9base();
+
+	newSuset("lu");	newSuset("u");	newSuset("ru");
+	newSuset("l");	newSuset("c");	newSuset("r");
+	newSuset("ld");	newSuset("d");	newSuset("rd");
+
 	link9("lu","lu_lu","lu_u","lu_ru","lu_l","lu_c","lu_r","lu_ld","lu_d","lu_rd");
 	link9("u","u_lu","u_u","u_ru","u_l","u_c","u_r","u_ld","u_d","u_rd");
 	link9("ru","ru_lu","ru_u","ru_ru","ru_l","ru_c","ru_r","ru_ld","ru_d","ru_rd");
@@ -331,6 +337,29 @@ void create9x9()
 	link9("ld","ld_lu","ld_u","ld_ru","ld_l","ld_c","ld_r","ld_ld","ld_d","ld_rd");
 	link9("d","d_lu","d_u","d_ru","d_l","d_c","d_r","d_ld","d_d","d_rd");
 	link9("rd","rd_lu","rd_u","rd_ru","rd_l","rd_c","rd_r","rd_ld","rd_d","rd_rd");
+}
+void create9x9figured()
+{
+	create9x9base();
+
+	newSuset("s1");	
+	link9("s1","lu_lu","lu_u","lu_l","lu_c","lu_ld","lu_d","l_lu","l_u","l_ru");
+	newSuset("s2");	
+	link9("s2","lu_ru","lu_r","u_lu","u_l","u_u","u_ru","ru_lu","ru_u","ru_ru");
+	newSuset("s3");	
+	link9("s3","lu_rd","u_ld","c_lu","u_c","u_d","c_u","u_r","u_rd","ru_l");
+	newSuset("s4");	
+	link9("s4","ru_c","ru_r","ru_ld","ru_d","ru_rd","r_lu","r_u","r_ru","r_c");
+	newSuset("s5");	
+	link9("s5","l_l","l_c","l_r","c_l","l_ld","l_d","ld_lu","ld_u","ld_c");
+	newSuset("s6");	
+	link9("s6","l_rd","c_ld","c_c","c_d","d_u","c_ru","c_r","c_rd","d_ru");
+	newSuset("s7");	
+	link9("s7","r_l","r_r","r_ld","r_d","r_rd","rd_u","rd_ru","rd_r","rd_rd");
+	newSuset("s8");	
+	link9("s8","ld_l","ld_ld","ld_d","ld_rd","ld_r","ld_ru","d_lu","d_l","d_ld");
+	newSuset("s9");	
+	link9("s9","d_c","d_d","d_r","d_rd","rd_lu","rd_l","rd_ld","rd_c","rd_d");
 }
 void create9x9with_diags()
 {
@@ -695,13 +724,14 @@ int main(int argc, char * argv[])
 	alphabet[8]="9";
 
 
-#if 0 // 9x9
-	#define NINExNINE 1
+#if 1 // 9x9
+	#define NINExNINE 4
 	/*
 	 0 void
 	 1 create9x9with_4quads
 	 2 create9x9with_diags - some bug in inputdata
 	 3 create9x9 hard
+	 4 create9x9figured hard
 	 */
 
 	#if NINExNINE==0 //default
@@ -718,6 +748,22 @@ int main(int argc, char * argv[])
 		{0,0,0, 0,0,0, 0,0,0},
 		{0,0,0, 0,0,0, 0,0,0},
 		{0,0,0, 0,0,0, 0,0,0},
+		};
+	#elif NINExNINE==4
+		create9x9figured();
+		int sumas[9][9]=
+		{
+		{0,0,8, 0,9,0, 5,0,0},
+		{0,1,2, 0,0,6, 0,0,5},
+		{0,7,0, 0,0,0, 0,0,4},
+
+		{8,0,0, 0,0,0, 0,0,0},
+		{0,6,0, 0,0,0, 0,1,0},
+		{0,0,0, 9,0,0, 0,4,0},
+
+		{0,0,0, 3,0,0, 0,0,0},
+		{0,0,0, 0,0,7, 0,0,0},
+		{2,0,0, 0,0,0, 0,0,0},
 		};
 	#elif NINExNINE==1
 		create9x9with_4quads();
@@ -828,7 +874,7 @@ int main(int argc, char * argv[])
 pr_level = (PR_level)(pr_null
 //	+pr_eval		//только для функции eval
 	+pr_inout		//вывод найденных решений
-	+pr_perebor		//перебор (в evalrec)
+//	+pr_perebor		//перебор (в evalrec)
 //	+pr_perebres	//вывод результатов при переборе
 //	+pr_titles		//заголовки функций ядра
 //	+pr_titleres	//вывод результатов сразу после заголовка

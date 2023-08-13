@@ -689,7 +689,7 @@ void eval()
 	{
 		assert(rezcount==0);
 		if(pr_level&pr_level)
-			printf("исходное условие протеворечиво, ни один вариант не подошел\n");
+			printf("исходное условие противоречиво, ни один вариант не подошел\n");
 		if(st_level&st_level)getchar();
 	}
 }
